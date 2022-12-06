@@ -46,20 +46,14 @@ let remindersController = {
   //the actual function that updates the content
   //takes the edited title/description/radio buttons
   update: (req, res) => {
-    // implement this code
-    //this chunk looks at URL + finds the string in the database object that matches
     let reminderToFind = req.params.id;
     let searchResult = database.cindy.reminders.find(function (reminder) {
       return reminder.id == reminderToFind;
     });
-    let reminder = {
-      //dynamically generates ID
-      id: database.cindy.reminders.length + 1,
-      title: req.body.title,
-      description: req.body.description,
-      completed: false,
-    };
-    //redirects back to list of reminders
+
+    searchResult.title = req.body.title;
+    searchResult.description = req.body.description;
+    searchResult.completed = req.body.completed == "true";
     res.redirect("/reminders");
   },
 
